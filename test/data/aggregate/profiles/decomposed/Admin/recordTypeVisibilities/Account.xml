@@ -1,0 +1,7 @@
+<Profile>
+    <recordTypeVisibilities>
+        <default>true</default>
+        <recordType>Account.Standard</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+</Profile>

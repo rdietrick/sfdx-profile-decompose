@@ -1,0 +1,12 @@
+<PermissionSet>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Customer_Engagement__c.Billing_Notes__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Customer_Engagement__c.Billing_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+</PermissionSet>

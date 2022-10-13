@@ -1,0 +1,10 @@
+{
+    "commandDescription" : "Aggregates decomposed profiles back into monolithic metadata files.",
+    "sourcePathFlagDescription" : "The path to the directory containing the the decomposed metadata files.  Default value is './force-app/main/default/profiles/decomposed'.",
+    "decomposeDirFlagDescription" : "The name of the directory where decomposed metadata files reside.",
+    "errorSourcePathNotFound" : "source-path %s not found.  Use the 'source-path' flag to override the default location.",
+    "errorDecomposeDirNotFound" : "decompose-dir %s not found.  Use the `decompose-dir` flag to override the default location.",
+    "errorXmlParse" : "Failed to read or parse decomposed profile metadata.",
+    "metadataTypesFlagDescription" : "Comma-separated list of metadata types to decompose (can only include 'profiles' and 'permnissionsets').",
+    "errorFileSave" : "Error saving file '%s'"
+}

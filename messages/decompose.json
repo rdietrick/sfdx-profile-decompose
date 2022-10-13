@@ -1,0 +1,11 @@
+{
+    "commandDescription" : "Decomposes monolithic profile metadata files into smaller, more manageable units with less likelihood of conflicts in your source control repository.",
+    "sourcePathFlagDescription" : "The path to the directory containing the original profile XML files.  Default value is './force-app/main/default/profiles'.",
+    "decomposeDirFlagDescription" : "The name of the directory where decomposed metadata files reside.",
+    "noProdFlagDescription": "If present/true, production-only profile permissions will be stripped from the decomposed profile files.",
+    "errorFileSave" : "Error writing saving file %s",
+    "errorSourcePathNotFound" : "Source path not found.",
+    "errorDecomposeDirNotFound" : "Decompose directory not found.",
+    "errorXmlParse" : "Failed to read or parse original profile metadata.  Make sure file exists and is valid.",
+    "metadataTypesFlagDescription" : "Comma-separated list of metadata types to decompose (can only include 'profiles' and 'permnissionsets')."
+}

@@ -1,0 +1,7 @@
+<Profile>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Customer_Engagement__c.Close_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+</Profile>

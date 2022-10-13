@@ -1,0 +1,9 @@
+<Profile>
+    <layoutAssignments>
+        <layout>Account-Account Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Account-Account Layout</layout>
+        <recordType>Account.Standard</recordType>
+    </layoutAssignments>
+</Profile>
