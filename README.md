@@ -29,88 +29,86 @@ $ npm install -g ./sfdx-profile-decompose
 
 <!-- commands -->
 ### Commands
-* [`sfdx profiles:decompose [-s <directory>] [-d <directory>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-profilesdecompose--s-directory--d-directory---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
-WARN|ERROR|FATAL]`]
-* [`sfdx profiles:aggregate [-s <directory>] [-d <directory>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-profilesaggregate--s-directory--d-directory---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
-WARN|ERROR|FATAL]`]
+* [`sfdx profiles:aggregate [-s <directory>] [-d <string>] [-m <array>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-profilesaggregate--s-directory--d-string--m-array---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
+* [`sfdx profiles:decompose [-s <directory>] [-d <string>] [-n] [-m <array>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-profilesdecompose--s-directory--d-string--n--m-array---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
 
-## `sfdx profiles:decompose [-s <directory>] [-d <directory>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
+## `sfdx profiles:aggregate [-s <directory>] [-d <string>] [-m <array>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
-Decompose profile metadata into per-object, per-permission files.  Given a single profile metadata file at the path `force-app/main/default/profiles/Admin.xml` that contains 
-`<objectPermissions>` and `<fieldPermissions>` for `Account` and `Contact` objects, you will end up with the following directory/file structure:
+Aggregates decomposed profiles back into monolithic metadata files.
+
 ```
-force-app/main/default/profiles/decomposed/
-└── Admin
-    ├── Admin.xml (core/global permissions)
-    ├── fieldPermissions
-    │   ├── Account.xml
-    │   ├── Contact.xml
-    ├── objectPermissions
-    │   ├── Account.xml
-    │   ├── Contact.xml
-```
-The `Account.xml` and `Contact.xml` files in the `fieldPermissions` and `objectPermissions` folders will contain only permissions of their respective types and objects for the Admin profle.  The `Admin.xml` file will contain all of the permissions that are not object-specific (e.g., `applicationVisiblities`, `classAccess`, etc.).
-
-
-#### USAGE
-```
-  $ sfdx profiles:decompose [-s <directory>] [-d <directory>] [--json] [--loglevel 
+USAGE
+  $ sfdx profiles:aggregate [-s <directory>] [-d <string>] [-m <array>] [--json] [--loglevel 
   trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
-```
 
-#### OPTIONS
-```
-  -d, --destination-path=destination-path                                           The path to the directory where the decomposed profile metadata where 
-                                                                                    be written.  Default value is 
-                                                                                    './force-app/main/default/profiles/decomposed'.
+OPTIONS
+  -d, --decompose-dir=decompose-dir                                                 [default: decomposed] The name of
+                                                                                    the directory where decomposed
+                                                                                    metadata files reside.
 
-  -s, --source-path=source-path                                                     The path to the directory containing the original profile XML files.  
-                                                                                    Default value is './force-app/main/default/profiles'.
+  -m, --md-types=md-types                                                           [default: profiles,permissionsets]
+                                                                                    Comma-separated list of metadata
+                                                                                    types to decompose (can only include
+                                                                                    'profiles' and 'permnissionsets').
 
-  -n, --no-prod                                                                     If flagged, then production-only properties will be stripeed from 
-                                                                                    decomposed XML files.
+  -s, --source-path=source-path                                                     [default: ./force-app/main/default]
+                                                                                    The path to the directory containing
+                                                                                    the the decomposed metadata files.
+                                                                                    Default value is './force-app/main/d
+                                                                                    efault/profiles/decomposed'.
 
   --json                                                                            format output as json
 
-  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for this command invocation
+  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for
+                                                                                    this command invocation
+
+EXAMPLE
+  $ sfdx profiles:aggregate --source-path=path/to/source --decompose-dir=decomposed
 ```
 
-#### EXAMPLES
-```
-  $ sfdx profiles:decompose --source-path=profiles --destination-path=profiles-decomposed
+_See code: [src/commands/profiles/aggregate.ts](https://github.com/rdietrick/sfdx-profile-decompose/blob/v1.0.0/src/commands/profiles/aggregate.ts)_
+
+## `sfdx profiles:decompose [-s <directory>] [-d <string>] [-n] [-m <array>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
+
+Decomposes monolithic profile metadata files into smaller, more manageable units with less likelihood of conflicts in your source control repository.
 
 ```
-
-## `sfdx profiles:aggregate [-s <directory>] [-d <directory>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
-
-Aggregate decomposed profile metadata files back into original profile XML.  Assumes the deomposed files to be in the structure documented above.
-
-#### USAGE
-```
-  $ sfdx profiles:decompose [-s <directory>] [-d <directory>] [--json] [--loglevel 
+USAGE
+  $ sfdx profiles:decompose [-s <directory>] [-d <string>] [-n] [-m <array>] [--json] [--loglevel 
   trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
- ```
 
-#### OPTIONS
-```
-  -d, --destination-path=destination-path                                           The path to the directory where the aggregated profile metadata will 
-                                                                                    be written.  Default value is 
+OPTIONS
+  -d, --decompose-dir=decompose-dir                                                 [default: decomposed] The name of
+                                                                                    the directory where decomposed
+                                                                                    metadata files reside.
+
+  -m, --md-types=md-types                                                           [default: profiles,permissionsets]
+                                                                                    Comma-separated list of metadata
+                                                                                    types to decompose (can only include
+                                                                                    'profiles' and 'permnissionsets').
+
+  -n, --no-prod                                                                     If present/true, production-only
+                                                                                    profile permissions will be stripped
+                                                                                    from the decomposed profile files.
+
+  -s, --source-path=source-path                                                     [default: ./force-app/main/default]
+                                                                                    The path to the directory containing
+                                                                                    the original profile XML files.
+                                                                                    Default value is
                                                                                     './force-app/main/default/profiles'.
 
-  -s, --source-path=source-path                                                     The path to the directory containing the decomposed profile XML files.  
-                                                                                    Default value is './force-app/main/default/profiles/decomposed'.
-
   --json                                                                            format output as json
 
-  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for this command invocation
+  --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for
+                                                                                    this command invocation
+
+EXAMPLES
+  $ sfdx profiles:decompose --source-path=path/to/source --decompose-dir=decomposed
+  $ sfdx profiles:decompose --source-path=path/to/source --decompose-dir=decomposed --no-prod
+  $ sfdx profiles:decompose --source-path=path/to/source --decompose-dir=decomposed --md-types=profiles
 ```
 
-#### EXAMPLES
-```
-  $ sfdx profiles:aggregate --source-path=decomposed-profiles --destination-path=profiles
-
-```
-
+_See code: [src/commands/profiles/decompose.ts](https://github.com/rdietrick/sfdx-profile-decompose/blob/v1.0.0/src/commands/profiles/decompose.ts)_
 <!-- commandsstop -->
 <!-- debugging-your-plugin -->
 # Debugging your plugin
