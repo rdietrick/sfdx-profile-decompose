@@ -56,27 +56,28 @@ export default class Aggregate extends SfdxCommand {
 
         const mdTypes = this.flags['md-types'];
         const processedComponents = {};
-        await Promise.all(mdTypes.map(async mdType => {
-            const mdSourcePath = path.join(sourcePath, mdType);
-            const mdDecomposedPath = path.join(mdSourcePath, decomposeDir);
-            if (!fs.existsSync(mdDecomposedPath)) {
-                throw new SfdxError(messages.getMessage('errorDecomposeDirNotFound', [mdDecomposedPath]));
-            }
-            const componentConfig = Utils.MD_TYPE_CONFIGS[mdType];
-            const suffix = componentConfig['mdSuffix'];
+		await Promise.all(mdTypes.map(async mdType => {
+			const mdSourcePath = path.join(sourcePath, mdType);
+			const mdDecomposedPath = path.join(mdSourcePath, decomposeDir);
+			if (!fs.existsSync(mdDecomposedPath)) {
+				throw new SfdxError(messages.getMessage('errorDecomposeDirNotFound', [mdDecomposedPath]));
+			}
+			const componentConfig = Utils.MD_TYPE_CONFIGS[mdType];
+			const suffix = componentConfig['mdSuffix'];
 
-            let names: string[] = [];
-            const mdDirs: fs.Dirent[] = await fs.promises.readdir(mdDecomposedPath, { withFileTypes: true });
-            if (mdDirs && mdDirs.length) {
-                names = await Promise.all(mdDirs.filter(f => !f.name.startsWith('.') && f.isDirectory()).map(async dirent => {
-                    const componentName: string = dirent.name;
-                    const mdComponent = await this.aggregateComponent(componentName, path.join(mdDecomposedPath, dirent.name), componentConfig['objectName']);
-                    await this.saveAggregatedComponent(mdComponent, componentConfig['objectName'], `${path.join(mdSourcePath, componentName)}${suffix}`);
-                    return componentName;
-                }));
-            }
-            processedComponents[mdType] = names;
-        }));
+			let names: string[] = [];
+			const mdDirs: fs.Dirent[] = await fs.promises.readdir(mdDecomposedPath, { withFileTypes: true });
+			if (mdDirs && mdDirs.length) {
+				names = await Promise.all(mdDirs.filter(f => !f.name.startsWith('.') && f.isDirectory()).map(async dirent => {
+					const componentName: string = dirent.name;
+					const mdComponent = await this.aggregateComponent(componentName, path.join(mdDecomposedPath, dirent.name), componentConfig['objectName']);
+					await this.saveAggregatedComponent(mdComponent, componentConfig['objectName'], `${path.join(mdSourcePath, componentName)}${suffix}`);
+					return componentName;
+				}));
+			}
+			processedComponents[mdType] = names;
+		}));
+        
         return processedComponents;
     }
 
@@ -101,24 +102,27 @@ export default class Aggregate extends SfdxCommand {
      */
     private async aggregateComponent(componentName: string, componentPath: string, componentType: string): Promise<object> {
         const coreMdFile = `${componentPath}/${componentName}.xml`;
-        const parsedMd = await this.readAndParseMetadata(coreMdFile);
-        await Promise.all(Object.keys(Utils.OBJECT_PROPS).map(async propertyType => {
-            // loop over each property type (e.g., 'fieldPermissions') and aggregate the properties from each
-            // object's XML file into a single array of properties
-            const permTypePath = path.join(componentPath, propertyType);
-            if (fs.existsSync(permTypePath)) {
-                const objectPermFiles: fs.Dirent[] = await fs.promises.readdir(permTypePath, { withFileTypes: true });
-                parsedMd[componentType][propertyType] = [];
-                const objectPerms: object[] = await Promise.all(objectPermFiles.filter(f => f.isFile() && f.name.toLowerCase().endsWith('.xml'))
-                    .map(async permFile => {
-                        const perms = await this.readAndParseMetadata(path.join(permTypePath, permFile.name));
-                        return perms[componentType][propertyType];
-                    }));
-                parsedMd[componentType][propertyType].push.apply(parsedMd[componentType][propertyType], objectPerms.reduce((acc: object[], val) => acc.concat(val), []));
-            }
-        }));
-        return parsedMd;
-    }
+		// console.log(`Parsing metadata from file ${coreMdFile}`);
+		const parsedMd = await this.readAndParseMetadata(coreMdFile);
+		await Promise.all(Object.keys(Utils.OBJECT_PROPS).map(async propertyType => {
+			// loop over each property type (e.g., 'fieldPermissions') and aggregate the properties from each
+			// object's XML file into a single array of properties
+			const permTypePath = path.join(componentPath, propertyType);
+			if (fs.existsSync(permTypePath)) {
+				const objectPermFiles: fs.Dirent[] = await fs.promises.readdir(permTypePath, { withFileTypes: true });
+				parsedMd[componentType][propertyType] = [];
+				const objectPerms: object[] = await Promise.all(objectPermFiles.filter(f => f.isFile() && f.name.toLowerCase().endsWith('.xml'))
+					.map(async permFile => {
+						const perms = await this.readAndParseMetadata(path.join(permTypePath, permFile.name));
+						return perms[componentType][propertyType];
+					}));
+				parsedMd[componentType][propertyType] = parsedMd[componentType][propertyType].concat(objectPerms.reduce((acc: object[], val) => acc.concat(val), []));
+				// parsedMd[componentType][propertyType].push.apply(parsedMd[componentType][propertyType], objectPerms.reduce((acc: object[], val) => acc.concat(val), []));
+			}
+		}));
+		return parsedMd;
+
+	}
 
     /**
      * Reads component metadata from a file and parses it into an object.
@@ -136,7 +140,7 @@ export default class Aggregate extends SfdxCommand {
             // exception will be thrown below
         }
         if (!mdComponent) {
-            throw new SfdxError(messages.getMessage('errorXmlParse', [`Parsing ${mdPath} failed.`]));
+			throw new SfdxError(messages.getMessage('errorXmlParse', [`Parsing ${mdPath} failed.`]));
         }
         return mdComponent;
     }
