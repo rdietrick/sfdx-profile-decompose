@@ -61,7 +61,10 @@
   ],
   "homepage": "https://github.com/rdietrick/sfdx-profile-decompose",
   "keywords": [
-    "sfdx-plugin"
+    "sfdx-plugin",
+    "sfdx-cli",
+    "sfdx",
+    "salesforce"
   ],
   "license": "MIT",
   "oclif": {
