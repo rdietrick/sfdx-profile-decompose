@@ -1,8 +1,8 @@
 {
   "name": "@rdietrick/sfdx-profile-decompose",
   "description": "Decomposes profile metadata into separate, more managable files.",
-  "version": "0.0.1",
-  "author": "Rob Dietrick @rdietrick",
+  "version": "1.0.0",
+  "author": "Rob Dietrick <rdietrick@gmail.com>",
   "bugs": "https://github.com/rdietrick/sfdx-profile-decompose/issues",
   "dependencies": {
     "@oclif/command": "^1",
