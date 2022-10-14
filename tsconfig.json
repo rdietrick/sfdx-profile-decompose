@@ -1,5 +1,5 @@
 {
-  "extends": "./node_modules/@salesforce/dev-config/tsconfig.json",
+  "extends": "./node_modules/@salesforce/dev-config/tsconfig",
   "compilerOptions": {
     "outDir": "./lib",
     "rootDir": "./src",
