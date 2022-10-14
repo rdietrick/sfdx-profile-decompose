@@ -21,7 +21,7 @@ const messages = Messages.loadMessages('sfdx-profile-decompose', 'decompose');
  */
 class DecomposedEntity {
     public globalProps: object;
-    private propMap: {};
+    private propMap;
 
     constructor(public componentName: string) {
         this.propMap = {};
@@ -159,7 +159,7 @@ export default class Decompose extends SfdxCommand {
             const files: fs.Dirent[] = await fs.promises.readdir(mdSourcePath, { withFileTypes: true });
             const names: string[] = await Promise.all(files.filter(f => f.isFile() && f.name.endsWith(mdConfig.mdSuffix))
                 .map(async f => {
-                    const fileName: string = `${mdSourcePath}/${f.name}`;
+                    const fileName = `${mdSourcePath}/${f.name}`;
                     let mdComponent: object = null;
                     try {
                         const xmlData: Buffer = await fs.promises.readFile(fileName);
@@ -222,7 +222,7 @@ export default class Decompose extends SfdxCommand {
                     if (perms) {
                         const wrapper: object = { [componentType]: {} };
                         wrapper[componentType][permissionType] = perms;
-                        const filename: string = `${path.join(componentPermissionTypePath, objType)}.xml`;
+                        const filename = `${path.join(componentPermissionTypePath, objType)}.xml`;
                         await this.serializeMetadata(filename, wrapper);
                         return filename;
                     }

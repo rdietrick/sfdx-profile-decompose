@@ -44,7 +44,7 @@ export default class Utils {
      * @param transformer an optional transformer function executed on the serialized data before writing to file
      */
     public static async writeMetadata(mdObject: object, filename: string, transformer?: (s: string) => string): Promise<string> {
-        let fileContents: string = '';
+        let fileContents = '';
         const parser = new xmlParser.j2xParser({format: true, indentBy: '    '});
         fileContents =  parser.parse(mdObject);
         if (transformer) {

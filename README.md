@@ -4,7 +4,6 @@ sfdx-profile-decompose
 Decomposes profile metadata into separate, more managable files.
 
 [![Version](https://img.shields.io/npm/v/sfdx-profile-decompose.svg)](https://npmjs.org/package/sfdx-profile-decompose)
-[![CircleCI](https://circleci.com/gh/rdietrick/sfdx-profile-decompose/tree/master.svg?style=shield)](https://circleci.com/gh/rdietrick/sfdx-profile-decompose/tree/master)
 [![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/rdietrick/sfdx-profile-decompose?branch=master&svg=true)](https://ci.appveyor.com/project/heroku/sfdx-profile-decompose/branch/master)
 [![Codecov](https://codecov.io/gh/rdietrick/sfdx-profile-decompose/branch/master/graph/badge.svg)](https://codecov.io/gh/rdietrick/sfdx-profile-decompose)
 [![Greenkeeper](https://badges.greenkeeper.io/rdietrick/sfdx-profile-decompose.svg)](https://greenkeeper.io/)
@@ -15,26 +14,21 @@ Decomposes profile metadata into separate, more managable files.
 <!-- toc -->
 * [Debugging your plugin](#debugging-your-plugin)
 <!-- tocstop -->
+
 <!-- install -->
-<!-- usage -->
+### Installing
+
 ```sh-session
 $ npm install -g sfdx-profile-decompose
-$ sfdx COMMAND
-running command...
-$ sfdx (-v|--version|version)
-sfdx-profile-decompose/0.0.1 darwin-x64 node-v12.14.1
-$ sfdx --help [COMMAND]
-USAGE
-  $ sfdx COMMAND
-...
 ```
 * If you receive the npm error `'sfdx-profile-decompose@*' is not in the npm registry.` from the `npm install -g sfdx-profile-decompose` command then try installing with the following commands:
 ```
 $ git clone git@github.com:rdietrick/sfdx-profile-decompose.git
 $ npm install -g ./sfdx-profile-decompose
 ```
-<!-- usagestop -->
+
 <!-- commands -->
+### Commands
 * [`sfdx profiles:decompose [-s <directory>] [-d <directory>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-profilesdecompose--s-directory--d-directory---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
 WARN|ERROR|FATAL]`]
 * [`sfdx profiles:aggregate [-s <directory>] [-d <directory>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-profilesaggregate--s-directory--d-directory---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
@@ -57,12 +51,15 @@ force-app/main/default/profiles/decomposed/
 ```
 The `Account.xml` and `Contact.xml` files in the `fieldPermissions` and `objectPermissions` folders will contain only permissions of their respective types and objects for the Admin profle.  The `Admin.xml` file will contain all of the permissions that are not object-specific (e.g., `applicationVisiblities`, `classAccess`, etc.).
 
+
+#### USAGE
 ```
-USAGE
   $ sfdx profiles:decompose [-s <directory>] [-d <directory>] [--json] [--loglevel 
   trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
+```
 
-OPTIONS
+#### OPTIONS
+```
   -d, --destination-path=destination-path                                           The path to the directory where the decomposed profile metadata where 
                                                                                     be written.  Default value is 
                                                                                     './force-app/main/default/profiles/decomposed'.
@@ -76,8 +73,10 @@ OPTIONS
   --json                                                                            format output as json
 
   --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for this command invocation
+```
 
-EXAMPLES
+#### EXAMPLES
+```
   $ sfdx profiles:decompose --source-path=profiles --destination-path=profiles-decomposed
 
 ```
@@ -86,12 +85,14 @@ EXAMPLES
 
 Aggregate decomposed profile metadata files back into original profile XML.  Assumes the deomposed files to be in the structure documented above.
 
+#### USAGE
 ```
-USAGE
   $ sfdx profiles:decompose [-s <directory>] [-d <directory>] [--json] [--loglevel 
   trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]
+ ```
 
-OPTIONS
+#### OPTIONS
+```
   -d, --destination-path=destination-path                                           The path to the directory where the aggregated profile metadata will 
                                                                                     be written.  Default value is 
                                                                                     './force-app/main/default/profiles'.
@@ -102,8 +103,10 @@ OPTIONS
   --json                                                                            format output as json
 
   --loglevel=(trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL)  [default: warn] logging level for this command invocation
+```
 
-EXAMPLES
+#### EXAMPLES
+```
   $ sfdx profiles:aggregate --source-path=decomposed-profiles --destination-path=profiles
 
 ```
