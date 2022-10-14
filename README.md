@@ -65,7 +65,7 @@ EXAMPLE
   $ sfdx profiles:aggregate --source-path=path/to/source --decompose-dir=decomposed
 ```
 
-_See code: [src/commands/profiles/aggregate.ts](https://github.com/rdietrick/sfdx-profile-decompose/blob/v1.0.0/src/commands/profiles/aggregate.ts)_
+_See code: [src/commands/profiles/aggregate.ts](https://github.com/rdietrick/sfdx-profile-decompose/blob/v1.1.0/src/commands/profiles/aggregate.ts)_
 
 ## `sfdx profiles:decompose [-s <directory>] [-d <string>] [-n] [-m <array>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
@@ -107,7 +107,7 @@ EXAMPLES
   $ sfdx profiles:decompose --source-path=path/to/source --decompose-dir=decomposed --md-types=profiles
 ```
 
-_See code: [src/commands/profiles/decompose.ts](https://github.com/rdietrick/sfdx-profile-decompose/blob/v1.0.0/src/commands/profiles/decompose.ts)_
+_See code: [src/commands/profiles/decompose.ts](https://github.com/rdietrick/sfdx-profile-decompose/blob/v1.1.0/src/commands/profiles/decompose.ts)_
 <!-- commandsstop -->
 <!-- debugging-your-plugin -->
 # Debugging your plugin
