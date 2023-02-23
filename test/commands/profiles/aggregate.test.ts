@@ -6,7 +6,6 @@ import testUtils from '../../utils';
 const sourcePath = path.join('test','data', 'aggregate');
 const decomposeDir = 'decomposed';
 
-const decomposeCmdArgs = ['profiles:decompose', '--source-path', sourcePath, '--decompose-dir', decomposeDir, '--no-prod', '--md-types', 'profiles'];
 const aggregateCommandArgs = ['profiles:aggregate', '--source-path', sourcePath, '--decompose-dir', decomposeDir, '--md-types', 'profiles'];
 
 const aggregatedFile = path.join(sourcePath, 'profiles', 'Admin.profile-meta.xml');
@@ -40,21 +39,26 @@ describe('profiles:aggregate', () => {
     });
 
     test
-    .command(decomposeCmdArgs)
     .command(aggregateCommandArgs)
     .it('creates aggregated profile XML', ctx => {
         expect(fs.existsSync(aggregatedFile)).to.be.true;
     });
 
     test
-    .command(decomposeCmdArgs)
-    .command(aggregateCommandArgs)
-    .it('handles multiple profiles', ctx => {
-        expect(fs.existsSync(path.join(sourcePath, 'profiles', 'Other.profile-meta.xml'))).to.be.true;
+    .command(['profiles:aggregate', '--source-path', sourcePath, '--decompose-dir', decomposeDir, '--md-types', 'profiles'])
+    .it('aggregates classAccesses from a separate file', ctx => {
+        const xq = testUtils.xmlQueryFromFile(path.join(sourcePath, 'profiles', 'Admin.profile-meta.xml'));
+        expect(xq.find('classAccesses')).to.have.length(2);
     });
 
     test
-    .command(decomposeCmdArgs)
+    .command(aggregateCommandArgs)
+    .it('handles multiple profiles', ctx => {
+        expect(fs.existsSync(path.join(sourcePath, 'profiles', 'Other.profile-meta.xml'))).to.be.true;
+        expect(fs.existsSync(path.join(sourcePath, 'profiles', 'Admin.profile-meta.xml'))).to.be.true;
+    });
+
+    test
     .command(aggregateCommandArgs)
     .it('handles empty permnission sections', ctx => {
         const xq = testUtils.xmlQueryFromFile(path.join(sourcePath, 'profiles', 'Other.profile-meta.xml'));
@@ -62,7 +66,6 @@ describe('profiles:aggregate', () => {
     });
 
     test
-    .command(decomposeCmdArgs)
     .command(aggregateCommandArgs)
     .it('includes core permissions', ctx => {
         const xq = testUtils.xmlQueryFromFile(aggregatedFile);
@@ -72,7 +75,6 @@ describe('profiles:aggregate', () => {
     });
 
     test
-    .command(decomposeCmdArgs)
     .command(aggregateCommandArgs)
     .it('includes all object permissions', ctx => {
         const xq = testUtils.xmlQueryFromFile(aggregatedFile);

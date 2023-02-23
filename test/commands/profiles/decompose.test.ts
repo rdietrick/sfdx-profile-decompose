@@ -215,4 +215,26 @@ describe("profiles:decompose", () => {
         const xq = testUtils.xmlQueryFromFile(path.join(sourceDir, 'permissionsets', 'decomposed', 'Services_Delivery_App_User', 'Services_Delivery_App_User.xml'));
         expect(xq.find('applicationVisibilities')).to.have.length(1);
     });
+
+    test
+    .command([
+        'profiles:decompose',
+        '--source-path',  sourceDir,
+        '--decompose-dir', 'decomposed',
+        '--no-prod',
+        '--md-types', 'profiles',
+        '--separate-classes'])
+    .it('separates classAccesses', ctx => {
+        const adminProfilePath = path.join(sourceDir, 'profiles', 'decomposed', 'Admin', 'Admin.xml');
+        expect(fs.existsSync(adminProfilePath)).to.be.true;
+        let xq =  testUtils.xmlQueryFromFile(adminProfilePath);
+        expect(xq.has('classAccesses')).to.be.false;
+
+        const classAccessesPath = path.join(sourceDir, 'profiles', 'decomposed', 'Admin', 'classAccesses.xml');
+        expect(fs.existsSync(classAccessesPath)).to.be.true;
+
+        xq = testUtils.xmlQueryFromFile(classAccessesPath);
+        const classAccesses = xq.find('classAccesses');
+        expect(classAccesses).to.have.length(2);
+    });
 });

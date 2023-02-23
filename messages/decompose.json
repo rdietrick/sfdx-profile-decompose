@@ -3,6 +3,7 @@
     "sourcePathFlagDescription" : "The path to the directory containing the original profile XML files.  Default value is './force-app/main/default/profiles'.",
     "decomposeDirFlagDescription" : "The name of the directory where decomposed metadata files reside.",
     "noProdFlagDescription": "If present/true, production-only profile permissions will be stripped from the decomposed profile files.",
+    "separateClassAccessDescription" : "If present/true, separates the classAccesses elements into a separate file for each profile",
     "errorFileSave" : "Error writing saving file %s",
     "errorSourcePathNotFound" : "Source path not found.",
     "errorDecomposeDirNotFound" : "Decompose directory not found.",

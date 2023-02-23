@@ -111,7 +111,8 @@ export default class Decompose extends SfdxCommand {
         'source-path': flags.directory({ char: 's', description: messages.getMessage('sourcePathFlagDescription'), default: Utils.DEFAULT_SOURCE_PATH }),
         'decompose-dir': flags.string({ char: 'd', description: messages.getMessage('decomposeDirFlagDescription'), default: Utils.DEFAULT_DECOMPOSE_DIR }),
         'no-prod': flags.boolean({ char: 'n', description: messages.getMessage('noProdFlagDescription')}),
-        'md-types': flags.array({char: 'm', description: messages.getMessage('metadataTypesFlagDescription'), default: ['profiles', 'permissionsets']})
+        'md-types': flags.array({char: 'm', description: messages.getMessage('metadataTypesFlagDescription'), default: ['profiles', 'permissionsets']}),
+        'separate-classes': flags.boolean({char: 'c', description: messages.getMessage('separateClassAccessDescription')})
     };
 
     // Comment this out if your command does not require an org username
@@ -211,6 +212,12 @@ export default class Decompose extends SfdxCommand {
     private async saveDecomposed(decomposed: DecomposedEntity, baseOutputPath: string, componentType: string): Promise<string> {
         const componentPath: string = path.join(baseOutputPath, decomposed.componentName);
         await this.mkdir(componentPath);
+        if (this.flags['separate-classes']) {
+            const wrapper: object = { [componentType]: {} };
+            wrapper[componentType]['classAccesses'] = decomposed.globalProps[componentType]['classAccesses'];
+            await this.serializeMetadata(`${path.join(componentPath, 'classAccesses')}.xml`, wrapper);
+            delete decomposed.globalProps[componentType]['classAccesses'];
+        }
         await this.serializeMetadata(`${path.join(componentPath, decomposed.componentName)}.xml`, decomposed.globalProps);
         await Promise.all(decomposed.getPropertyTypes().map(async permissionType => {
             const componentPermissionTypePath: string = path.join(componentPath, permissionType);
