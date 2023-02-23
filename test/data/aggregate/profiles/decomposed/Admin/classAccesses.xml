@@ -1,0 +1,10 @@
+<Profile>
+    <classAccesses>
+        <apexClass>AccountBusinessLineUpdateHandler</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>AccountBusinessLineUpdateHandlerTest</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+</Profile>

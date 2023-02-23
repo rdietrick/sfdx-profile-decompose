@@ -100,22 +100,24 @@ export default class Aggregate extends SfdxCommand {
      */
     private async aggregateComponent(componentName: string, componentPath: string, componentType: string): Promise<object> {
         const coreMdFile = `${componentPath}/${componentName}.xml`;
-		// console.log(`Parsing metadata from file ${coreMdFile}`);
 		const parsedMd = await this.readAndParseMetadata(coreMdFile);
+        const classAccessesFile = `${componentPath}/classAccesses.xml`;
+        if (fs.existsSync(classAccessesFile)) {
+            const classAccesses = await this.readAndParseMetadata(classAccessesFile);
+            parsedMd[componentType]['classAccesses'] = classAccesses[componentType]['classAccesses'].reduce((acc: object[], val) => acc.concat(val), []);
+        }
 		await Promise.all(Object.keys(Utils.OBJECT_PROPS).map(async propertyType => {
 			// loop over each property type (e.g., 'fieldPermissions') and aggregate the properties from each
 			// object's XML file into a single array of properties
 			const permTypePath = path.join(componentPath, propertyType);
 			if (fs.existsSync(permTypePath)) {
 				const objectPermFiles: fs.Dirent[] = await fs.promises.readdir(permTypePath, { withFileTypes: true });
-				parsedMd[componentType][propertyType] = [];
 				const objectPerms: object[] = await Promise.all(objectPermFiles.filter(f => f.isFile() && f.name.toLowerCase().endsWith('.xml'))
 					.map(async permFile => {
 						const perms = await this.readAndParseMetadata(path.join(permTypePath, permFile.name));
 						return perms[componentType][propertyType];
 					}));
-				parsedMd[componentType][propertyType] = parsedMd[componentType][propertyType].concat(objectPerms.reduce((acc: object[], val) => acc.concat(val), []));
-				// parsedMd[componentType][propertyType].push.apply(parsedMd[componentType][propertyType], objectPerms.reduce((acc: object[], val) => acc.concat(val), []));
+				parsedMd[componentType][propertyType] = objectPerms.reduce((acc: object[], val) => acc.concat(val), []);
 			}
 		}));
 		return parsedMd;

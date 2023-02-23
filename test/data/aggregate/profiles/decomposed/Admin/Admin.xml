@@ -9,14 +9,6 @@
         <default>false</default>
         <visible>true</visible>
     </applicationVisibilities>
-    <classAccesses>
-        <apexClass>AccountBusinessLineUpdateHandler</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>AccountBusinessLineUpdateHandlerTest</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
     <custom>false</custom>
     <pageAccesses>
         <apexPage>AccountDetailPage</apexPage>
@@ -35,4 +27,14 @@
         <enabled>true</enabled>
         <name>ActivateOrder</name>
     </userPermissions>
+    <classAccesses>
+        <classAccesses>
+            <apexClass>AccountBusinessLineUpdateHandler</apexClass>
+            <enabled>false</enabled>
+        </classAccesses>
+        <classAccesses>
+            <apexClass>AccountBusinessLineUpdateHandlerTest</apexClass>
+            <enabled>false</enabled>
+        </classAccesses>
+    </classAccesses>
 </Profile>

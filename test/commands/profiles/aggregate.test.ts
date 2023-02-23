@@ -40,10 +40,16 @@ describe('profiles:aggregate', () => {
     });
 
     test
-    .command(decomposeCmdArgs)
     .command(aggregateCommandArgs)
     .it('creates aggregated profile XML', ctx => {
         expect(fs.existsSync(aggregatedFile)).to.be.true;
+    });
+
+    test
+    .command(['profiles:aggregate', '--source-path', sourcePath, '--decompose-dir', decomposeDir, '--md-types', 'profiles'])
+    .it('aggregates classAccesses from a separate file', ctx => {
+        const xq = testUtils.xmlQueryFromFile(path.join(sourcePath, 'profiles', 'Admin.profile-meta.xml'));
+        expect(xq.find('classAccesses')).to.have.length(2);
     });
 
     test
