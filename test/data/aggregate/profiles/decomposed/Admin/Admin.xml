@@ -27,14 +27,4 @@
         <enabled>true</enabled>
         <name>ActivateOrder</name>
     </userPermissions>
-    <classAccesses>
-        <classAccesses>
-            <apexClass>AccountBusinessLineUpdateHandler</apexClass>
-            <enabled>false</enabled>
-        </classAccesses>
-        <classAccesses>
-            <apexClass>AccountBusinessLineUpdateHandlerTest</apexClass>
-            <enabled>false</enabled>
-        </classAccesses>
-    </classAccesses>
 </Profile>
