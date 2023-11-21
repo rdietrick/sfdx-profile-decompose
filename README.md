@@ -3,17 +3,6 @@ sfdx-profile-decompose
 
 Decomposes profile metadata into separate, more managable files.
 
-[![Version](https://img.shields.io/npm/v/sfdx-profile-decompose.svg)](https://npmjs.org/package/sfdx-profile-decompose)
-[![Appveyor CI](https://ci.appveyor.com/api/projects/status/github/rdietrick/sfdx-profile-decompose?branch=master&svg=true)](https://ci.appveyor.com/project/heroku/sfdx-profile-decompose/branch/master)
-[![Codecov](https://codecov.io/gh/rdietrick/sfdx-profile-decompose/branch/master/graph/badge.svg)](https://codecov.io/gh/rdietrick/sfdx-profile-decompose)
-[![Greenkeeper](https://badges.greenkeeper.io/rdietrick/sfdx-profile-decompose.svg)](https://greenkeeper.io/)
-[![Known Vulnerabilities](https://snyk.io/test/github/rdietrick/sfdx-profile-decompose/badge.svg)](https://snyk.io/test/github/rdietrick/sfdx-profile-decompose)
-[![Downloads/week](https://img.shields.io/npm/dw/sfdx-profile-decompose.svg)](https://npmjs.org/package/sfdx-profile-decompose)
-[![License](https://img.shields.io/npm/l/sfdx-profile-decompose.svg)](https://github.com/rdietrick/sfdx-profile-decompose/blob/master/package.json)
-
-<!-- toc -->
-* [Debugging your plugin](#debugging-your-plugin)
-<!-- tocstop -->
 
 <!-- install -->
 ### Installing
