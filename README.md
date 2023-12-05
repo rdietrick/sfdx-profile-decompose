@@ -1,26 +1,59 @@
 sfdx-profile-decompose
 ======================
 
-Decomposes profile metadata into separate, more managable files.
+An SFDX plugin that decomposes profile and permissionset metadata into separate, more managable files.  The plugin is also capable of restoring profile/permissionset metadata back into the monolithic format expected by SFDC deployment tools.
 
+Instead of one giant file for each profile or permissionset, you can track such metadata in your repo/project in more granular, object-specific files.  For instance, a monolithic Admin.xml profile could be broken down into the following structure:
+```
+force-app/main/default/profiles/decomposed/Admin
+├── Admin.xml
+├── fieldPermissions
+│   ├── Account.xml
+│   ├── Contact.xml
+│   ├── Lead.xml
+│   ├── Opportunity.xml
+├── layoutAssignments
+│   ├── Account.xml
+│   ├── Contact.xml
+│   ├── Lead.xml
+│   ├── Opportunity.xml
+├── objectPermissions
+│   ├── Account.xml
+│   ├── Contact.xml
+│   ├── Lead.xml
+│   ├── Opportunity.xml
+└── recordTypeVisibilities
+│   ├── Account.xml
+│   ├── Contact.xml
+│   ├── Lead.xml
+│   ├── Opportunity.xml
+```
+
+The Admin.xml file in the root profile directory will contain system-level permissions, while the object-specific files will contain the profile permissions that pertain to that specific object's metadata.
 
 <!-- install -->
 ### Installing
 
+The easiest way to install this plugin (assuming you have the [Salesforce CLI](https://developer.salesforce.com/tools/salesforcecli) installed) is to simply run:
 ```sh-session
-$ npm install -g @rdietrick/sfdx-profile-decompose
+$ sfdx plugins:install @rdietrick/sfdx-profile-decompose
 ```
-* If you receive the npm error `'sfdx-profile-decompose@*' is not in the npm registry.` from the `npm install -g sfdx-profile-decompose` command then try installing with the following commands:
+
+You can also clone this repo and install this as an npm module with the following commands:
 ```
 $ git clone git@github.com:rdietrick/sfdx-profile-decompose.git
 $ npm install -g ./sfdx-profile-decompose
 ```
 
 <!-- commands -->
-* [`sfdx profiles:aggregate [-s <directory>] [-d <string>] [-m <array>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-profilesaggregate--s-directory--d-string--m-array---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
-* [`sfdx profiles:decompose [-s <directory>] [-d <string>] [-n] [-m <array>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-profilesdecompose--s-directory--d-string--n--m-array---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
+### Commands
 
-## `sfdx profiles:aggregate [-s <directory>] [-d <string>] [-m <array>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
+There are two commands available in this plugin, which are documented in detail below.  They are:
+
+* `sfdx profiles:aggregate` - aggregates granular profile/permissionset files into the monolithic format expected during deployment
+* `sfdx profiles:decompose` - decomposes monolithic profile/permissionset files into more granular, object-specific files
+
+#### `sfdx profiles:aggregate [-s <directory>] [-d <string>] [-m <array>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
 Aggregates decomposed profiles back into monolithic metadata files.
 
@@ -55,7 +88,7 @@ EXAMPLE
 ```
 
 
-## `sfdx profiles:decompose [-s <directory>] [-d <string>] [-n] [-m <array>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
+#### `sfdx profiles:decompose [-s <directory>] [-d <string>] [-n] [-m <array>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`
 
 Decomposes monolithic profile metadata files into smaller, more manageable units with less likelihood of conflicts in your source control repository.
 
