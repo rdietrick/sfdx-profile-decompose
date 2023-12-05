@@ -8,13 +8,9 @@ Decomposes profile metadata into separate, more managable files.
 ### Installing
 
 ```sh-session
-$ npm install -g @rdietrick/sfdx-profile-decompose
+$ npx sf plugins:install @rdietrick/sfdx-profile-decompose
 ```
-* If you receive the npm error `'sfdx-profile-decompose@*' is not in the npm registry.` from the `npm install -g sfdx-profile-decompose` command then try installing with the following commands:
-```
-$ git clone git@github.com:rdietrick/sfdx-profile-decompose.git
-$ npm install -g ./sfdx-profile-decompose
-```
+
 
 <!-- commands -->
 * [`sfdx profiles:aggregate [-s <directory>] [-d <string>] [-m <array>] [--json] [--loglevel trace|debug|info|warn|error|fatal|TRACE|DEBUG|INFO|WARN|ERROR|FATAL]`](#sfdx-profilesaggregate--s-directory--d-string--m-array---json---loglevel-tracedebuginfowarnerrorfataltracedebuginfowarnerrorfatal)
